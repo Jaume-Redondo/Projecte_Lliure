@@ -32,14 +32,15 @@ public class Pantalla_Inici extends JPanel {
         botSalir.addActionListener(e -> { System.exit(0); });
 
     }
+
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 
         Graphics2D g2d = (Graphics2D) g;
 
         GradientPaint gp = new GradientPaint(
-                0, 0, new Color(20, 20, 60),
-                0, getHeight(), new Color(70, 130, 180)
+                0, 0, new Color(80, 30, 70),
+                0, getHeight(), new Color(200, 20, 180)
         );
         g2d.setPaint(gp);
         g2d.fillRect(0, 0, getWidth(), getHeight());
