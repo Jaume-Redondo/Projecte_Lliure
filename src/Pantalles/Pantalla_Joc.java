@@ -2,7 +2,8 @@ package Pantalles;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 class Carta {
@@ -17,9 +18,21 @@ class Carta {
 
 public class Pantalla_Joc extends JPanel {
 
+    private JButton primeraCarta = null;
+    private JButton segonaCarta = null;
+
+    private boolean bloqueig = false;
+
+    private int parellesTrobades = 0;
+
+    private ImageIcon revers;
+
+
     public Pantalla_Joc(JPanel contenedor) {
 
         setLayout(new GridLayout(4, 4));
+
+        revers = escalarImatge("src/Fotos/logo.png");
 
         List<Carta> baralla = new ArrayList<>();
 
@@ -58,18 +71,74 @@ public class Pantalla_Joc extends JPanel {
             fruita.setBackground(Color.WHITE);
             fruita.setFocusPainted(false);
 
-
+            fruita.setIcon(revers);
 
             fruita.putClientProperty("carta", carta);
 
             fruita.addActionListener(e -> {
+
+                if (bloqueig) return;
+
+                if (fruita == primeraCarta) return;
+
                 Carta c = (Carta) fruita.getClientProperty("carta");
+
                 fruita.setIcon(c.imatge);
+
+                if (primeraCarta == null) {
+
+                    primeraCarta = fruita;
+
+                } else {
+
+                    segonaCarta = fruita;
+
+                    bloqueig = true;
+
+                    Carta c1 = (Carta) primeraCarta.getClientProperty("carta");
+                    Carta c2 = (Carta) segonaCarta.getClientProperty("carta");
+
+                    if (c1.id.equals(c2.id)) {
+
+                        parellesTrobades++;
+
+                        primeraCarta = null;
+                        segonaCarta = null;
+
+                        bloqueig = false;
+
+                        if (parellesTrobades == 8) {
+
+                            JOptionPane.showMessageDialog(
+                                    this,
+                                    "HAS GUANYAT!"
+                            );
+                        }
+
+                    } else {
+
+                        Timer timer = new javax.swing.Timer(1000, evt -> {
+
+                            primeraCarta.setIcon(revers);
+                            segonaCarta.setIcon(revers);
+
+                            primeraCarta = null;
+                            segonaCarta = null;
+
+                            bloqueig = false;
+                        });
+
+                        timer.setRepeats(false);
+                        timer.start();
+                    }
+                }
             });
 
             add(fruita);
         }
     }
+
+
 
     private ImageIcon escalarImatge(String ruta_imatge) {
 
