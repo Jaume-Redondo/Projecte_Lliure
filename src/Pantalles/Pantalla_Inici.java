@@ -39,8 +39,8 @@ public class Pantalla_Inici extends JPanel {
         Graphics2D g2d = (Graphics2D) g;
 
         GradientPaint gp = new GradientPaint(
-                0, 0, new Color(80, 30, 70),
-                0, getHeight(), new Color(200, 20, 180)
+                0, 0, new Color(26, 155, 142),
+                0, getHeight(), new Color(21, 128, 115)
         );
         g2d.setPaint(gp);
         g2d.fillRect(0, 0, getWidth(), getHeight());

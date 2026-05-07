@@ -7,11 +7,11 @@ import java.util.List;
 
 class Carta {
     String id;
-    ImageIcon imagen;
+    ImageIcon imatge;
 
-    public Carta(String id, ImageIcon imagen) {
+    public Carta(String id, ImageIcon imatge) {
         this.id = id;
-        this.imagen = imagen;
+        this.imatge = imatge;
     }
 }
 
@@ -24,29 +24,29 @@ public class Pantalla_Joc extends JPanel {
         List<Carta> baralla = new ArrayList<>();
 
 
-        baralla.add(new Carta("manzana", new ImageIcon("src/Fotos/manzana.png")));
-        baralla.add(new Carta("manzana", new ImageIcon("src/Fotos/manzana.png")));
+        baralla.add(new Carta("cirera", escalarImatge("src/Fotos/cirera.png")));
+        baralla.add(new Carta("cirera", escalarImatge("src/Fotos/cirera.png")));
 
-        baralla.add(new Carta("limon", new ImageIcon("src/Fotos/limon.png")));
-        baralla.add(new Carta("limon", new ImageIcon("src/Fotos/limon.png")));
+        baralla.add(new Carta("maduixa", escalarImatge("src/Fotos/maduixa.png")));
+        baralla.add(new Carta("maduixa", escalarImatge("src/Fotos/maduixa.png")));
 
-        baralla.add(new Carta("platano", new ImageIcon("src/Fotos/platano.png")));
-        baralla.add(new Carta("platano", new ImageIcon("src/Fotos/platano.png")));
+        baralla.add(new Carta("pera", escalarImatge("src/Fotos/pera.png")));
+        baralla.add(new Carta("pera", escalarImatge("src/Fotos/pera.png")));
 
-        baralla.add(new Carta("uva", new ImageIcon("src/Fotos/uva.png")));
-        baralla.add(new Carta("uva", new ImageIcon("src/Fotos/uva.png")));
+        baralla.add(new Carta("poma", escalarImatge("src/Fotos/poma.png")));
+        baralla.add(new Carta("poma", escalarImatge("src/Fotos/poma.png")));
 
-        baralla.add(new Carta("sandia", new ImageIcon("src/Fotos/sandia.png")));
-        baralla.add(new Carta("sandia", new ImageIcon("src/Fotos/sandia.png")));
+        baralla.add(new Carta("platan", escalarImatge("src/Fotos/platan.png")));
+        baralla.add(new Carta("platan", escalarImatge("src/Fotos/platan.png")));
 
-        baralla.add(new Carta("pera", new ImageIcon("src/Fotos/pera.png")));
-        baralla.add(new Carta("pera", new ImageIcon("src/Fotos/pera.png")));
+        baralla.add(new Carta("pressec", escalarImatge("src/Fotos/pressec.png")));
+        baralla.add(new Carta("pressec", escalarImatge("src/Fotos/pressec.png")));
 
-        baralla.add(new Carta("cereza", new ImageIcon("src/Fotos/cereza.png")));
-        baralla.add(new Carta("cereza", new ImageIcon("src/Fotos/cereza.png")));
+        baralla.add(new Carta("raim", escalarImatge("src/Fotos/raim.png")));
+        baralla.add(new Carta("raim", escalarImatge("src/Fotos/raim.png")));
 
-        baralla.add(new Carta("piña", new ImageIcon("src/Fotos/piña.png")));
-        baralla.add(new Carta("piña", new ImageIcon("src/Fotos/piña.png")));
+        baralla.add(new Carta("taronja", escalarImatge("src/Fotos/taronja.png")));
+        baralla.add(new Carta("taronja", escalarImatge("src/Fotos/taronja.png")));
 
         Collections.shuffle(baralla);
 
@@ -59,14 +59,23 @@ public class Pantalla_Joc extends JPanel {
             fruita.setFocusPainted(false);
 
 
+
             fruita.putClientProperty("carta", carta);
 
             fruita.addActionListener(e -> {
                 Carta c = (Carta) fruita.getClientProperty("carta");
-                fruita.setIcon(c.imagen);
+                fruita.setIcon(c.imatge);
             });
 
             add(fruita);
         }
+    }
+
+    private ImageIcon escalarImatge(String ruta_imatge) {
+
+        ImageIcon imatge = new ImageIcon(ruta_imatge);
+        Image imagen = imatge.getImage();
+        Image imagenEscalada = imagen.getScaledInstance(128, 128,Image.SCALE_SMOOTH);
+        return new ImageIcon(imagenEscalada);
     }
 }
