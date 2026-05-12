@@ -27,47 +27,44 @@ public class Pantalla_Joc extends JPanel {
 
     private ImageIcon revers;
 
+    private JLabel labelTemps;
+    private JLabel labelPunts;
+
 
     public Pantalla_Joc(JPanel contenedor) {
+        setLayout(new BorderLayout());
 
-        setLayout(new GridLayout(4, 4));
+        JPanel panelSuperior = new JPanel();
 
-        revers = escalarImatge("src/Fotos/logo.png");
+        panelSuperior.setPreferredSize(new Dimension(0, 80));
 
-        List<Carta> baralla = new ArrayList<>();
+        labelTemps = new JLabel("Temps: 0");
+        labelPunts = new JLabel("Parelles: 0");
+
+        labelTemps.setFont(new Font("Arial", Font.BOLD, 20));
+        labelPunts.setFont(new Font("Arial", Font.BOLD, 20));
+
+        panelSuperior.add(labelTemps);
+        panelSuperior.add(Box.createHorizontalStrut(50));
+        panelSuperior.add(labelPunts);
+
+        add(panelSuperior, BorderLayout.NORTH);
+
+        JPanel tauler = new JPanel();
+
+        // 🔥 aquí luego cambiarás 4x4 / 6x6 / 8x8
+        tauler.setLayout(new GridLayout(4, 4, 10, 10));
+
+        tauler.setBorder(BorderFactory.createEmptyBorder(20,20,20,20));
 
 
-        baralla.add(new Carta("cirera", escalarImatge("src/Fotos/cirera.png")));
-        baralla.add(new Carta("cirera", escalarImatge("src/Fotos/cirera.png")));
-
-        baralla.add(new Carta("maduixa", escalarImatge("src/Fotos/maduixa.png")));
-        baralla.add(new Carta("maduixa", escalarImatge("src/Fotos/maduixa.png")));
-
-        baralla.add(new Carta("pera", escalarImatge("src/Fotos/pera.png")));
-        baralla.add(new Carta("pera", escalarImatge("src/Fotos/pera.png")));
-
-        baralla.add(new Carta("poma", escalarImatge("src/Fotos/poma.png")));
-        baralla.add(new Carta("poma", escalarImatge("src/Fotos/poma.png")));
-
-        baralla.add(new Carta("platan", escalarImatge("src/Fotos/platan.png")));
-        baralla.add(new Carta("platan", escalarImatge("src/Fotos/platan.png")));
-
-        baralla.add(new Carta("pressec", escalarImatge("src/Fotos/pressec.png")));
-        baralla.add(new Carta("pressec", escalarImatge("src/Fotos/pressec.png")));
-
-        baralla.add(new Carta("raim", escalarImatge("src/Fotos/raim.png")));
-        baralla.add(new Carta("raim", escalarImatge("src/Fotos/raim.png")));
-
-        baralla.add(new Carta("taronja", escalarImatge("src/Fotos/taronja.png")));
-        baralla.add(new Carta("taronja", escalarImatge("src/Fotos/taronja.png")));
-
-        Collections.shuffle(baralla);
+        List<Carta> baralla = donarCartes();
 
         for (Carta carta : baralla) {
 
             JButton fruita = new JButton();
 
-
+            // SOLO VISUAL, HAY QUE CAMBIARLO
             fruita.setBackground(Color.WHITE);
             fruita.setFocusPainted(false);
 
@@ -100,42 +97,20 @@ public class Pantalla_Joc extends JPanel {
 
                     if (c1.id.equals(c2.id)) {
 
-                        parellesTrobades++;
-
-                        primeraCarta = null;
-                        segonaCarta = null;
-
-                        bloqueig = false;
-
-                        if (parellesTrobades == 8) {
-
-                            JOptionPane.showMessageDialog(
-                                    this,
-                                    "HAS GUANYAT!"
-                            );
-                        }
+                        parellesCorrectes();
+                        comprovarVictoria();
 
                     } else {
 
-                        Timer timer = new javax.swing.Timer(1000, evt -> {
-
-                            primeraCarta.setIcon(revers);
-                            segonaCarta.setIcon(revers);
-
-                            primeraCarta = null;
-                            segonaCarta = null;
-
-                            bloqueig = false;
-                        });
-
-                        timer.setRepeats(false);
-                        timer.start();
+                        parrellesIncorrectes();
                     }
                 }
             });
 
-            add(fruita);
+            tauler.add(fruita);
         }
+
+        add(tauler, BorderLayout.CENTER);
     }
 
 
@@ -146,5 +121,75 @@ public class Pantalla_Joc extends JPanel {
         Image imagen = imatge.getImage();
         Image imagenEscalada = imagen.getScaledInstance(128, 128,Image.SCALE_SMOOTH);
         return new ImageIcon(imagenEscalada);
+    }
+
+    private List<Carta> donarCartes() {
+        revers = escalarImatge("src/Fotos/logo.png");
+
+        List<Carta> baralla = new ArrayList<>();
+
+        baralla.add(new Carta("cirera", escalarImatge("src/Fotos/cirera.png")));
+        baralla.add(new Carta("cirera", escalarImatge("src/Fotos/cirera.png")));
+
+        baralla.add(new Carta("maduixa", escalarImatge("src/Fotos/maduixa.png")));
+        baralla.add(new Carta("maduixa", escalarImatge("src/Fotos/maduixa.png")));
+
+        baralla.add(new Carta("pera", escalarImatge("src/Fotos/pera.png")));
+        baralla.add(new Carta("pera", escalarImatge("src/Fotos/pera.png")));
+
+        baralla.add(new Carta("poma", escalarImatge("src/Fotos/poma.png")));
+        baralla.add(new Carta("poma", escalarImatge("src/Fotos/poma.png")));
+
+        baralla.add(new Carta("platan", escalarImatge("src/Fotos/platan.png")));
+        baralla.add(new Carta("platan", escalarImatge("src/Fotos/platan.png")));
+
+        baralla.add(new Carta("pressec", escalarImatge("src/Fotos/pressec.png")));
+        baralla.add(new Carta("pressec", escalarImatge("src/Fotos/pressec.png")));
+
+        baralla.add(new Carta("raim", escalarImatge("src/Fotos/raim.png")));
+        baralla.add(new Carta("raim", escalarImatge("src/Fotos/raim.png")));
+
+        baralla.add(new Carta("taronja", escalarImatge("src/Fotos/taronja.png")));
+        baralla.add(new Carta("taronja", escalarImatge("src/Fotos/taronja.png")));
+
+        Collections.shuffle(baralla);
+        return baralla;
+    }
+
+    private void parellesCorrectes() {
+        primeraCarta.setEnabled(false);
+        segonaCarta.setEnabled(false);
+
+        parellesTrobades++;
+
+        primeraCarta = null;
+        segonaCarta = null;
+
+        labelPunts.setText("Parelles: " + parellesTrobades);
+
+        bloqueig = false;
+
+    }
+
+    private void parrellesIncorrectes() {
+        Timer timer = new Timer(1000, evt -> {
+
+            primeraCarta.setIcon(revers);
+            segonaCarta.setIcon(revers);
+
+            primeraCarta = null;
+            segonaCarta = null;
+
+            bloqueig = false;
+        });
+
+        timer.setRepeats(false);
+        timer.start();
+    }
+
+    private void comprovarVictoria() {
+        if (parellesTrobades == 8) {
+            JOptionPane.showMessageDialog(this,"HAS GUANYAT!");
+        }
     }
 }
