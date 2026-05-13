@@ -5,9 +5,9 @@ import Form.Main;
 import javax.swing.*;
 import java.awt.*;
 
-public class Pantalla_Inici extends JPanel {
+public class PantallaInici extends JPanel {
 
-    public Pantalla_Inici(JPanel pantalles) {
+    public PantallaInici(JPanel pantalles) {
 
         setLayout(null);
         setBackground(Color.gray);
@@ -24,9 +24,10 @@ public class Pantalla_Inici extends JPanel {
         botSalir.setFont(new Font("Arial", Font.BOLD, 20));
         add(botSalir);
 
+        // MENU CAMBIAR
         botIniciar.addActionListener(e -> {
             CardLayout cl = (CardLayout) (pantalles.getLayout());
-            cl.show(pantalles, Main.JOC);
+            cl.show(pantalles, Main.DIFICULTAT);
         });
 
         botSalir.addActionListener(e -> { System.exit(0); });

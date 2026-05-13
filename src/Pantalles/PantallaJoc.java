@@ -16,7 +16,7 @@ class Carta {
     }
 }
 
-public class Pantalla_Joc extends JPanel {
+public class PantallaJoc extends JPanel {
 
     private JButton primeraCarta = null;
     private JButton segonaCarta = null;
@@ -24,6 +24,7 @@ public class Pantalla_Joc extends JPanel {
     private boolean bloqueig = false;
 
     private int parellesTrobades = 0;
+    int dificultat = PantallaDificultat.dificultat;
 
     private ImageIcon revers;
 
@@ -31,7 +32,7 @@ public class Pantalla_Joc extends JPanel {
     private JLabel labelPunts;
 
 
-    public Pantalla_Joc(JPanel contenedor) {
+    public PantallaJoc(JPanel contenedor) {
         setLayout(new BorderLayout());
 
         JPanel panelSuperior = new JPanel();
