@@ -1,20 +1,13 @@
 package Pantalles;
 
+import Cartes.Carta;
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-class Carta {
-    String id;
-    ImageIcon imatge;
-
-    public Carta(String id, ImageIcon imatge) {
-        this.id = id;
-        this.imatge = imatge;
-    }
-}
 
 public class PantallaJoc extends JPanel {
 
@@ -24,12 +17,17 @@ public class PantallaJoc extends JPanel {
     private boolean bloqueig = false;
 
     private int parellesTrobades = 0;
+    private int moviments = 0;
+    private int segons = 0;
+
     int dificultat = PantallaDificultat.dificultat;
 
     private ImageIcon revers;
 
     private JLabel labelTemps;
     private JLabel labelPunts;
+    private JLabel labelMoviments;
+    private Timer timerTemps;
 
 
     public PantallaJoc(JPanel contenedor) {
@@ -41,13 +39,18 @@ public class PantallaJoc extends JPanel {
 
         labelTemps = new JLabel("Temps: 0");
         labelPunts = new JLabel("Parelles: 0");
+        labelMoviments = new JLabel("Moviments: 0");
 
         labelTemps.setFont(new Font("Arial", Font.BOLD, 20));
         labelPunts.setFont(new Font("Arial", Font.BOLD, 20));
+        labelMoviments.setFont(new Font("Arial", Font.BOLD, 20));
+
 
         panelSuperior.add(labelTemps);
         panelSuperior.add(Box.createHorizontalStrut(50));
         panelSuperior.add(labelPunts);
+        panelSuperior.add(Box.createHorizontalStrut(50));
+        panelSuperior.add(labelMoviments);
 
         add(panelSuperior, BorderLayout.NORTH);
 
@@ -81,7 +84,8 @@ public class PantallaJoc extends JPanel {
 
                 Carta c = (Carta) fruita.getClientProperty("carta");
 
-                fruita.setIcon(c.imatge);
+                fruita.setIcon(c.getImatge());
+
 
                 if (primeraCarta == null) {
 
@@ -91,12 +95,13 @@ public class PantallaJoc extends JPanel {
 
                     segonaCarta = fruita;
 
+
                     bloqueig = true;
 
                     Carta c1 = (Carta) primeraCarta.getClientProperty("carta");
                     Carta c2 = (Carta) segonaCarta.getClientProperty("carta");
 
-                    if (c1.id.equals(c2.id)) {
+                    if (c1.getId().equals(c2.getId())) {
 
                         parellesCorrectes();
                         comprovarVictoria();
@@ -113,7 +118,6 @@ public class PantallaJoc extends JPanel {
 
         add(tauler, BorderLayout.CENTER);
     }
-
 
 
     private ImageIcon escalarImatge(String ruta_imatge) {
@@ -157,7 +161,28 @@ public class PantallaJoc extends JPanel {
         return baralla;
     }
 
+    private void iniciarTemps() {
+
+        timerTemps = new Timer(1000, e -> {
+
+            segons++;
+
+            labelTemps.setText("Temps: " + segons + "s");
+        });
+
+        timerTemps.start();
+    }
+
+
+
+    private void sumarMoviments() {
+        moviments++;
+        labelMoviments.setText("Moviments: " + moviments);
+    }
+
     private void parellesCorrectes() {
+        sumarMoviments();
+
         primeraCarta.setEnabled(false);
         segonaCarta.setEnabled(false);
 
@@ -168,11 +193,13 @@ public class PantallaJoc extends JPanel {
 
         labelPunts.setText("Parelles: " + parellesTrobades);
 
+
         bloqueig = false;
 
     }
 
     private void parrellesIncorrectes() {
+        sumarMoviments();
         Timer timer = new Timer(1000, evt -> {
 
             primeraCarta.setIcon(revers);

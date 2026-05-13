@@ -1,6 +1,6 @@
 package Pantalles;
 
-import Form.Main;
+import Main.Main;
 
 import javax.swing.*;
 import java.awt.*;
@@ -27,7 +27,7 @@ public class PantallaInici extends JPanel {
         // MENU CAMBIAR
         botIniciar.addActionListener(e -> {
             CardLayout cl = (CardLayout) (pantalles.getLayout());
-            cl.show(pantalles, Main.DIFICULTAT);
+            cl.show(pantalles, Main.JOC);
         });
 
         botSalir.addActionListener(e -> { System.exit(0); });

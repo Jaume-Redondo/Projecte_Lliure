@@ -1,6 +1,6 @@
 package Pantalles;
 
-import Form.Main;
+import Main.Main;
 
 import javax.swing.*;
 import java.awt.*;

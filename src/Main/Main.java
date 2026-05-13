@@ -1,4 +1,4 @@
-package Form;
+package Main;
 
 import Pantalles.PantallaDificultat;
 import Pantalles.PantallaInici;
@@ -24,7 +24,7 @@ public class Main {
         PantallaJoc joc = new PantallaJoc(pantalles);
 
         pantalles.add(inici,INICI);
-        pantalles.add(joc,DIFICULTAT);
+        pantalles.add(dificultat,DIFICULTAT);
         pantalles.add(joc,JOC);
 
         frame.setContentPane(pantalles);
