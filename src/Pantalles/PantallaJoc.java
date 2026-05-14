@@ -33,6 +33,8 @@ public class PantallaJoc extends JPanel {
     public PantallaJoc(JPanel contenedor) {
         setLayout(new BorderLayout());
 
+        dificultat = 1;
+
         JPanel panelSuperior = new JPanel();
 
         panelSuperior.setPreferredSize(new Dimension(0, 80));
@@ -56,8 +58,13 @@ public class PantallaJoc extends JPanel {
 
         JPanel tauler = new JPanel();
 
-        // 🔥 aquí luego cambiarás 4x4 / 6x6 / 8x8
-        tauler.setLayout(new GridLayout(4, 4, 10, 10));
+        if (dificultat == 1) {
+            tauler.setLayout(new GridLayout(4, 4, 15, 15));
+        } else if (dificultat ==2 ) {
+            tauler.setLayout(new GridLayout(4, 5, 10, 10));
+        } else if (dificultat ==3) {
+            tauler.setLayout(new GridLayout(4, 6, 5, 5));
+        }
 
         tauler.setBorder(BorderFactory.createEmptyBorder(20,20,20,20));
 
@@ -68,9 +75,12 @@ public class PantallaJoc extends JPanel {
 
             JButton fruita = new JButton();
 
-            // SOLO VISUAL, HAY QUE CAMBIARLO
             fruita.setBackground(Color.WHITE);
             fruita.setFocusPainted(false);
+            fruita.setBorder(
+                    BorderFactory.createLineBorder(Color.BLACK, 2)
+            );
+            fruita.setFocusable(false);
 
             fruita.setIcon(revers);
 
@@ -128,36 +138,67 @@ public class PantallaJoc extends JPanel {
         return new ImageIcon(imagenEscalada);
     }
 
+    private List<Carta> totesLesCartes() {
+
+        List<Carta> cartes = new ArrayList<>();
+
+        cartes.add(new Carta("cirera",escalarImatge("src/Fotos/cirera.png")));
+
+        cartes.add(new Carta("maduixa", escalarImatge("src/Fotos/maduixa.png")));
+
+        cartes.add(new Carta("pera", escalarImatge("src/Fotos/pera.png")));
+
+        cartes.add(new Carta("poma", escalarImatge("src/Fotos/poma.png")));
+
+        cartes.add(new Carta("platan", escalarImatge("src/Fotos/platan.png")));
+
+        cartes.add(new Carta("pressec", escalarImatge("src/Fotos/pressec.png")));
+
+        cartes.add(new Carta("raim", escalarImatge("src/Fotos/raim.png")));
+
+        cartes.add(new Carta("taronja", escalarImatge("src/Fotos/taronja.png")));
+
+        cartes.add(new Carta("coco", escalarImatge("src/Fotos/coco.png")));
+
+        cartes.add(new Carta("llimona", escalarImatge("src/Fotos/llimona.png")));
+
+        cartes.add(new Carta("pinya", escalarImatge("src/Fotos/pinya.png")));
+
+        cartes.add(new Carta("pitaia", escalarImatge("src/Fotos/pitaia.png")));
+
+        cartes.add(new Carta("pruna", escalarImatge("src/Fotos/pruna.png")));
+
+        return cartes;
+    }
+
     private List<Carta> donarCartes() {
+        int parellesNecessaries = 0;
         revers = escalarImatge("src/Fotos/logo.png");
 
+        List<Carta> totes = totesLesCartes();
+
+        Collections.shuffle(totes);
+
         List<Carta> baralla = new ArrayList<>();
+        if (dificultat == 1) {
+            parellesNecessaries = 8;
+        }else if (dificultat ==2) {
+            parellesNecessaries = 10;
+        } else if (dificultat ==3) {
+            parellesNecessaries = 12;
+        }
 
-        baralla.add(new Carta("cirera", escalarImatge("src/Fotos/cirera.png")));
-        baralla.add(new Carta("cirera", escalarImatge("src/Fotos/cirera.png")));
+        for (int i = 0; i < parellesNecessaries; i++) {
 
-        baralla.add(new Carta("maduixa", escalarImatge("src/Fotos/maduixa.png")));
-        baralla.add(new Carta("maduixa", escalarImatge("src/Fotos/maduixa.png")));
+            Carta carta = totes.get(i);
 
-        baralla.add(new Carta("pera", escalarImatge("src/Fotos/pera.png")));
-        baralla.add(new Carta("pera", escalarImatge("src/Fotos/pera.png")));
+            baralla.add(carta);
 
-        baralla.add(new Carta("poma", escalarImatge("src/Fotos/poma.png")));
-        baralla.add(new Carta("poma", escalarImatge("src/Fotos/poma.png")));
-
-        baralla.add(new Carta("platan", escalarImatge("src/Fotos/platan.png")));
-        baralla.add(new Carta("platan", escalarImatge("src/Fotos/platan.png")));
-
-        baralla.add(new Carta("pressec", escalarImatge("src/Fotos/pressec.png")));
-        baralla.add(new Carta("pressec", escalarImatge("src/Fotos/pressec.png")));
-
-        baralla.add(new Carta("raim", escalarImatge("src/Fotos/raim.png")));
-        baralla.add(new Carta("raim", escalarImatge("src/Fotos/raim.png")));
-
-        baralla.add(new Carta("taronja", escalarImatge("src/Fotos/taronja.png")));
-        baralla.add(new Carta("taronja", escalarImatge("src/Fotos/taronja.png")));
+            baralla.add(new Carta(carta.getId(),carta.getImatge()));
+        }
 
         Collections.shuffle(baralla);
+
         return baralla;
     }
 
@@ -172,8 +213,6 @@ public class PantallaJoc extends JPanel {
 
         timerTemps.start();
     }
-
-
 
     private void sumarMoviments() {
         moviments++;
