@@ -1,6 +1,7 @@
 package Pantalles;
 
 import Cartes.Carta;
+import Main.Base_Dades;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,7 +17,7 @@ public class PantallaJoc extends JPanel {
 
     private boolean bloqueig = false;
 
-    private int parellesTrobades = 0;
+    private int parellesTrobades = 7;
     private int moviments = 0;
     private int segons = 0;
 
@@ -272,6 +273,9 @@ public class PantallaJoc extends JPanel {
                 dificultat == 2 && parellesTrobades == 10 ||
                 dificultat == 3 && parellesTrobades == 12) {
 
+            int score = 1000 - moviments * 10 - segons;
+
+            Base_Dades.guardarPartida(PantallaInici.nomUsuari,dificultat,moviments,segons);
             timerTemps.stop();
 
             JOptionPane.showMessageDialog(
