@@ -83,21 +83,21 @@ A continuación se muestran diferentes capturas del funcionamiento del juego **M
 ---
 
 ### 🖥️ Pantalla de inicio
-![Pantalla de inicio](screens/inici.png)
+![Pantalla de inicio](INICI.png)
 
 ---
 
 ### 🎮 Selección de dificultad
-![Pantalla de dificultad](screens/dificultat.png)
+![Pantalla de dificultad](DIFICULTAT.png)
 
 ---
 
 ### 🧠 Pantalla de juego
-![Pantalla de juego](screens/joc.png)
+![Pantalla de juego](PARTIDA.png)
 
 ---
 
 ### 🏁 Pantalla de victoria
-![Pantalla de victoria](screens/victoria.png)
+![Pantalla de victoria](RANKING.png)
 
 ---
