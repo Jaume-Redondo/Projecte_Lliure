@@ -25,38 +25,45 @@ public class PantallaJoc extends JPanel {
     private ImageIcon revers;
 
     private JLabel labelTemps;
-    private JLabel labelPunts;
+    private JLabel labelParelles;
     private JLabel labelMoviments;
+
     private Timer timerTemps;
 
+    private final Color fons = Color.decode("#F4F7F7");
+    private final Color panelSuperiorColor = Color.WHITE;
+    private final Color textColor = Color.decode("#1E293B");
+    private final Color bordeCarta = Color.decode("#D6D6D6");
+    private final Color cartaFons = Color.WHITE;
 
     public PantallaJoc(JPanel contenedor) {
-        setLayout(new BorderLayout());
 
-        dificultat = 1;
+        setLayout(new BorderLayout());
+        setBackground(fons);
 
         JPanel panelSuperior = new JPanel();
 
         panelSuperior.setPreferredSize(new Dimension(0, 80));
+        panelSuperior.setBorder(BorderFactory.createEmptyBorder(15,20,15,20));
+        panelSuperior.setLayout(new FlowLayout(FlowLayout.CENTER,40,15));
 
-        labelTemps = new JLabel("Temps: 0");
-        labelPunts = new JLabel("Parelles: 0");
+        labelTemps = new JLabel("Temps: 00:00");
+        labelParelles = new JLabel("Parelles: 0");
         labelMoviments = new JLabel("Moviments: 0");
 
-        labelTemps.setFont(new Font("Arial", Font.BOLD, 20));
-        labelPunts.setFont(new Font("Arial", Font.BOLD, 20));
-        labelMoviments.setFont(new Font("Arial", Font.BOLD, 20));
-
+        estilLabels(labelTemps);
+        estilLabels(labelParelles);
+        estilLabels(labelMoviments);
 
         panelSuperior.add(labelTemps);
-        panelSuperior.add(Box.createHorizontalStrut(50));
-        panelSuperior.add(labelPunts);
-        panelSuperior.add(Box.createHorizontalStrut(50));
+        panelSuperior.add(labelParelles);
         panelSuperior.add(labelMoviments);
-
         add(panelSuperior, BorderLayout.NORTH);
 
         JPanel tauler = new JPanel();
+        tauler.setBackground(fons);
+
+        iniciarTemps();
 
         if (dificultat == 1) {
             tauler.setLayout(new GridLayout(4, 4, 15, 15));
@@ -75,36 +82,38 @@ public class PantallaJoc extends JPanel {
 
             JButton fruita = new JButton();
 
-            fruita.setBackground(Color.WHITE);
+            fruita.setBackground(cartaFons);
             fruita.setFocusPainted(false);
-            fruita.setBorder(
-                    BorderFactory.createLineBorder(Color.BLACK, 2)
-            );
+            fruita.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
             fruita.setFocusable(false);
-
             fruita.setIcon(revers);
-
             fruita.putClientProperty("carta", carta);
+
+            fruita.addMouseListener(new java.awt.event.MouseAdapter() {
+                public void mouseEntered(java.awt.event.MouseEvent evt) {
+                    if (fruita.isEnabled()) {
+                        fruita.setBackground(new Color(235,235,235));
+                    }
+                }
+                public void mouseExited(java.awt.event.MouseEvent evt) {
+                    if (fruita.isEnabled()) {
+                        fruita.setBackground(cartaFons);
+                    }
+                }
+            });
 
             fruita.addActionListener(e -> {
 
                 if (bloqueig) return;
-
                 if (fruita == primeraCarta) return;
-
                 Carta c = (Carta) fruita.getClientProperty("carta");
-
                 fruita.setIcon(c.getImatge());
 
-
                 if (primeraCarta == null) {
-
                     primeraCarta = fruita;
 
                 } else {
-
                     segonaCarta = fruita;
-
 
                     bloqueig = true;
 
@@ -114,7 +123,7 @@ public class PantallaJoc extends JPanel {
                     if (c1.getId().equals(c2.getId())) {
 
                         parellesCorrectes();
-                        comprovarVictoria();
+                        comprovarVictoria(dificultat);
 
                     } else {
 
@@ -129,6 +138,10 @@ public class PantallaJoc extends JPanel {
         add(tauler, BorderLayout.CENTER);
     }
 
+    private void estilLabels(JLabel label) {
+        label.setFont(new Font("Quicksand", Font.BOLD, 22));
+        label.setForeground(textColor);
+    }
 
     private ImageIcon escalarImatge(String ruta_imatge) {
 
@@ -173,7 +186,7 @@ public class PantallaJoc extends JPanel {
 
     private List<Carta> donarCartes() {
         int parellesNecessaries = 0;
-        revers = escalarImatge("src/Fotos/logo.png");
+        revers = escalarImatge("src/Fotos/logo_carta.png");
 
         List<Carta> totes = totesLesCartes();
 
@@ -182,18 +195,16 @@ public class PantallaJoc extends JPanel {
         List<Carta> baralla = new ArrayList<>();
         if (dificultat == 1) {
             parellesNecessaries = 8;
-        }else if (dificultat ==2) {
+        }else if (dificultat == 2) {
             parellesNecessaries = 10;
-        } else if (dificultat ==3) {
+        } else if (dificultat == 3) {
             parellesNecessaries = 12;
         }
 
         for (int i = 0; i < parellesNecessaries; i++) {
 
             Carta carta = totes.get(i);
-
             baralla.add(carta);
-
             baralla.add(new Carta(carta.getId(),carta.getImatge()));
         }
 
@@ -205,12 +216,11 @@ public class PantallaJoc extends JPanel {
     private void iniciarTemps() {
 
         timerTemps = new Timer(1000, e -> {
-
             segons++;
-
-            labelTemps.setText("Temps: " + segons + "s");
+            int minuts = segons / 60;
+            int segonsRestants = segons % 60;
+            labelTemps.setText(String.format("Temps: %02d:%02d",minuts,segonsRestants));
         });
-
         timerTemps.start();
     }
 
@@ -225,13 +235,16 @@ public class PantallaJoc extends JPanel {
         primeraCarta.setEnabled(false);
         segonaCarta.setEnabled(false);
 
+        primeraCarta.setBackground(new Color(220,255,220));
+
+        segonaCarta.setBackground(new Color(220,255,220));
+
         parellesTrobades++;
 
         primeraCarta = null;
         segonaCarta = null;
 
-        labelPunts.setText("Parelles: " + parellesTrobades);
-
+        labelParelles.setText("Parelles: " + parellesTrobades);
 
         bloqueig = false;
 
@@ -254,9 +267,16 @@ public class PantallaJoc extends JPanel {
         timer.start();
     }
 
-    private void comprovarVictoria() {
-        if (parellesTrobades == 8) {
-            JOptionPane.showMessageDialog(this,"HAS GUANYAT!");
+    private void comprovarVictoria(int dificultat) {
+        if (dificultat == 1 && parellesTrobades == 8 ||
+                dificultat == 2 && parellesTrobades == 10 ||
+                dificultat == 3 && parellesTrobades == 12) {
+
+            timerTemps.stop();
+
+            JOptionPane.showMessageDialog(
+                    this,"Has completat el tauler!\n\n" + labelTemps.getText() + "\n" +"Moviments: " + moviments,"VICTÒRIA",JOptionPane.INFORMATION_MESSAGE
+            );
         }
     }
 }

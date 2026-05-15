@@ -33,5 +33,9 @@ public class Main {
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
         frame.setResizable(false);
+
+        Toolkit logo = Toolkit.getDefaultToolkit();
+        Image icono = logo.getImage("src/Fotos/logo_carta.png");
+        frame.setIconImage(icono);
     }
 }

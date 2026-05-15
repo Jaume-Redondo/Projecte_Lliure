@@ -3,52 +3,101 @@ package Pantalles;
 import Main.Main;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
 public class PantallaDificultat extends JPanel {
 
     static int dificultat;
 
+    private final Color fons = Color.decode("#1B1B2F");
+    private final Color verd = Color.decode("#4CAF50");
+    private final Color groc = Color.decode("#FFC857");
+    private final Color vermell = Color.decode("#D7263D");;
+    private final Color blanc = Color.decode("#EAEAEA");
+
     public PantallaDificultat(JPanel pantalles) {
 
-        setLayout(null);
-        setBackground(Color.gray);
+        setLayout(new BorderLayout());
+        setBackground(fons);
 
-        JButton botFacil = new JButton("Facil");
-        botFacil.setBounds(300, 200, 200, 50);
-        botFacil.setBackground(Color.red);
-        botFacil.setFont(new Font("Arial", Font.PLAIN, 20));
-        add(botFacil);
+        JPanel panelCentre = new JPanel();
+        panelCentre.setLayout(new BoxLayout(panelCentre, BoxLayout.Y_AXIS));
+        panelCentre.setBackground(fons);
+        panelCentre.setBorder(new EmptyBorder(60, 100, 60, 100));
 
-        JButton botNormal = new JButton("Sortir");
-        botNormal.setBounds(300, 300, 200, 50);
-        botNormal.setBackground(Color.blue);
-        botNormal.setFont(new Font("Arial", Font.BOLD, 20));
-        add(botNormal);
+        JLabel titol = new JLabel("SELECCIONA DIFICULTAT");
+        titol.setAlignmentX(Component.CENTER_ALIGNMENT);
+        titol.setFont(new Font("Poppins", Font.BOLD, 38));
+        titol.setForeground(Color.white);
+        panelCentre.add(titol);
 
-        JButton BotDificil = new JButton("Sortir");
-        BotDificil.setBounds(300, 300, 200, 50);
-        BotDificil.setBackground(Color.blue);
-        BotDificil.setFont(new Font("Arial", Font.BOLD, 20));
-        add(BotDificil);
+        panelCentre.add(Box.createVerticalStrut(50));
 
-        // MENU CAMBIAR
+
+        JButton botFacil = new JButton("FÀCIL");
+        estilBoto(botFacil, verd);
         botFacil.addActionListener(e -> {
-            CardLayout cl = (CardLayout) (pantalles.getLayout());
-            cl.show(pantalles, Main.DIFICULTAT);
-            dificultat= 1;
+            dificultat = 1;
+            PantallaJoc joc = new PantallaJoc(pantalles);
+            pantalles.add(joc, Main.JOC);
+            CardLayout cl = (CardLayout) pantalles.getLayout();
+            cl.show(pantalles, Main.JOC);
         });
+        panelCentre.add(botFacil);
 
+        panelCentre.add(Box.createVerticalStrut(20));
+
+        JButton botNormal = new JButton("NORMAL");
+        estilBoto(botNormal, groc);
         botNormal.addActionListener(e -> {
-            CardLayout cl = (CardLayout) (pantalles.getLayout());
-            cl.show(pantalles, Main.DIFICULTAT);
-            dificultat= 2;
+            dificultat = 2;
+            PantallaJoc joc = new PantallaJoc(pantalles);
+            pantalles.add(joc, Main.JOC);
+            CardLayout cl = (CardLayout) pantalles.getLayout();
+            cl.show(pantalles, Main.JOC);
+        });
+        panelCentre.add(botNormal);
+
+        panelCentre.add(Box.createVerticalStrut(20));
+
+        JButton botDificil = new JButton("DIFÍCIL");
+        estilBoto(botDificil, vermell);
+        botDificil.addActionListener(e -> {
+            dificultat = 3;
+            PantallaJoc joc = new PantallaJoc(pantalles);
+            pantalles.add(joc, Main.JOC);
+            CardLayout cl = (CardLayout) pantalles.getLayout();
+            cl.show(pantalles, Main.JOC);
+        });
+        panelCentre.add(botDificil);
+
+        panelCentre.add(Box.createVerticalStrut(40));
+
+
+        JButton botMenu = new JButton("TORNAR AL MENÚ");
+        estilBoto(botMenu, blanc);
+        botMenu.setForeground(Color.black);
+        botMenu.addActionListener(e -> {
+            CardLayout cl = (CardLayout) pantalles.getLayout();
+            cl.show(pantalles, Main.INICI);
         });
 
-        BotDificil.addActionListener(e -> {
-            CardLayout cl = (CardLayout) (pantalles.getLayout());
-            cl.show(pantalles, Main.DIFICULTAT);
-            dificultat= 3;
-        });
+        panelCentre.add(botMenu);
+
+        add(panelCentre, BorderLayout.CENTER);
+    }
+
+    private void estilBoto(JButton boto, Color color) {
+        boto.setAlignmentX(Component.CENTER_ALIGNMENT);
+        boto.setMaximumSize(new Dimension(320, 65));
+        boto.setBackground(color);
+        boto.setForeground(Color.WHITE);
+        boto.setFont(new Font("Quicksand", Font.BOLD, 24));
+        boto.setFocusPainted(false);
+        boto.setBorderPainted(false);
+        boto.setFocusable(false);
+        boto.setCursor(new Cursor(Cursor.HAND_CURSOR));
     }
 }
+
