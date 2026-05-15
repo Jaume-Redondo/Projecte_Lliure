@@ -3,6 +3,7 @@ package Main;
 import Pantalles.PantallaDificultat;
 import Pantalles.PantallaInici;
 import Pantalles.PantallaJoc;
+import Pantalles.PantallaRanking;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,6 +13,7 @@ public class Main {
     public static final String INICI = "inici";
     public static final String DIFICULTAT = "dificultat";
     public static final String JOC = "joc";
+    public static final String RANKING = "ranking";
 
     public static void main(String[] args) {
 
@@ -22,10 +24,12 @@ public class Main {
         PantallaInici inici = new PantallaInici(pantalles);
         PantallaDificultat dificultat = new PantallaDificultat(pantalles);
         PantallaJoc joc = new PantallaJoc(pantalles);
+        PantallaRanking ranking = new PantallaRanking(pantalles);
 
         pantalles.add(inici,INICI);
         pantalles.add(dificultat,DIFICULTAT);
         pantalles.add(joc,JOC);
+        pantalles.add(ranking, RANKING);
 
         frame.setContentPane(pantalles);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

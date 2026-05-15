@@ -2,6 +2,7 @@ package Pantalles;
 
 import Cartes.Carta;
 import Main.Base_Dades;
+import Main.Main;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,7 +18,7 @@ public class PantallaJoc extends JPanel {
 
     private boolean bloqueig = false;
 
-    private int parellesTrobades = 7;
+    private int parellesTrobades = 0;
     private int moviments = 0;
     private int segons = 0;
 
@@ -29,17 +30,18 @@ public class PantallaJoc extends JPanel {
     private JLabel labelParelles;
     private JLabel labelMoviments;
 
+    private JPanel contenedor;
+
     private Timer timerTemps;
 
-    private final Color fons = Color.decode("#F4F7F7");
-    private final Color panelSuperiorColor = Color.WHITE;
     private final Color textColor = Color.decode("#1E293B");
-    private final Color bordeCarta = Color.decode("#D6D6D6");
     private final Color cartaFons = Color.WHITE;
 
     public PantallaJoc(JPanel contenedor) {
+        this.contenedor = contenedor;
 
         setLayout(new BorderLayout());
+        Color fons = Color.decode("#F4F7F7");
         setBackground(fons);
 
         JPanel panelSuperior = new JPanel();
@@ -237,7 +239,6 @@ public class PantallaJoc extends JPanel {
         segonaCarta.setEnabled(false);
 
         primeraCarta.setBackground(new Color(220,255,220));
-
         segonaCarta.setBackground(new Color(220,255,220));
 
         parellesTrobades++;
@@ -273,14 +274,20 @@ public class PantallaJoc extends JPanel {
                 dificultat == 2 && parellesTrobades == 10 ||
                 dificultat == 3 && parellesTrobades == 12) {
 
-            int score = 1000 - moviments * 10 - segons;
-
-            Base_Dades.guardarPartida(PantallaInici.nomUsuari,dificultat,moviments,segons);
+            Base_Dades.guardarPartida(PantallaInici.nomUsuari, dificultat, moviments, segons);
             timerTemps.stop();
-
-            JOptionPane.showMessageDialog(
-                    this,"Has completat el tauler!\n\n" + labelTemps.getText() + "\n" +"Moviments: " + moviments,"VICTÒRIA",JOptionPane.INFORMATION_MESSAGE
+            JOptionPane.showMessageDialog(this,"Has completat el tauler!\n\n" +
+                            "Temps: " + labelTemps.getText() + "\n" +"Moviments: " + moviments,
+                    "VICTÒRIA",JOptionPane.INFORMATION_MESSAGE
             );
+
+            JButton botRanking = new JButton("VEURE RANKING");
+            botRanking.addActionListener(e -> {
+                CardLayout cl = (CardLayout) contenedor.getLayout();
+                cl.show(contenedor, Main.RANKING);
+            });
+
+            JOptionPane.showMessageDialog(this,botRanking,"Què vols fer ara?",JOptionPane.PLAIN_MESSAGE);
         }
     }
 }

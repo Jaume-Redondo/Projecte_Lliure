@@ -10,15 +10,10 @@ public class PantallaDificultat extends JPanel {
 
     static int dificultat;
 
-    private final Color fons = Color.decode("#1B1B2F");
-    private final Color verd = Color.decode("#4CAF50");
-    private final Color groc = Color.decode("#FFC857");
-    private final Color vermell = Color.decode("#D7263D");;
-    private final Color blanc = Color.decode("#EAEAEA");
-
     public PantallaDificultat(JPanel pantalles) {
 
         setLayout(new BorderLayout());
+        Color fons = Color.decode("#1B1B2F");
         setBackground(fons);
 
         JPanel panelCentre = new JPanel();
@@ -36,6 +31,7 @@ public class PantallaDificultat extends JPanel {
 
 
         JButton botFacil = new JButton("FÀCIL");
+        Color verd = Color.decode("#4CAF50");
         estilBoto(botFacil, verd);
         botFacil.addActionListener(e -> {
             dificultat = 1;
@@ -49,6 +45,7 @@ public class PantallaDificultat extends JPanel {
         panelCentre.add(Box.createVerticalStrut(20));
 
         JButton botNormal = new JButton("NORMAL");
+        Color groc = Color.decode("#FFC857");
         estilBoto(botNormal, groc);
         botNormal.addActionListener(e -> {
             dificultat = 2;
@@ -62,6 +59,7 @@ public class PantallaDificultat extends JPanel {
         panelCentre.add(Box.createVerticalStrut(20));
 
         JButton botDificil = new JButton("DIFÍCIL");
+        Color vermell = Color.decode("#D7263D");
         estilBoto(botDificil, vermell);
         botDificil.addActionListener(e -> {
             dificultat = 3;
@@ -76,6 +74,7 @@ public class PantallaDificultat extends JPanel {
 
 
         JButton botMenu = new JButton("TORNAR AL MENÚ");
+        Color blanc = Color.decode("#EAEAEA");
         estilBoto(botMenu, blanc);
         botMenu.setForeground(Color.black);
         botMenu.addActionListener(e -> {

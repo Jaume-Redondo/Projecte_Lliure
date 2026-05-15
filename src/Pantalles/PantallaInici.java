@@ -10,7 +10,6 @@ public class PantallaInici extends JPanel {
 
     private final Color teal = Color.decode("#1A9B8E");
     private final Color coral = Color.decode("#E8764D");
-    private final Color textFosc = Color.decode("#1E293B");
 
     public static String nomUsuari = "";
 
@@ -34,6 +33,7 @@ public class PantallaInici extends JPanel {
         JLabel subtitol = new JLabel("Juga i aprèn amb Pair Up!");
         subtitol.setAlignmentX(Component.CENTER_ALIGNMENT);
         subtitol.setFont(new Font("Quicksand", Font.BOLD, 22));
+        Color textFosc = Color.decode("#1E293B");
         subtitol.setForeground(textFosc);
 
         panelCentre.add(titol);
