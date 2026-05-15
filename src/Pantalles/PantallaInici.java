@@ -12,6 +12,8 @@ public class PantallaInici extends JPanel {
     private final Color coral = Color.decode("#E8764D");
     private final Color textFosc = Color.decode("#1E293B");
 
+    public static String nomUsuari = "";
+
     public PantallaInici(JPanel pantalles) {
 
         setLayout(new BorderLayout());
@@ -40,9 +42,32 @@ public class PantallaInici extends JPanel {
         panelCentre.add(Box.createVerticalStrut(60));
 
 
+        JLabel textNom = new JLabel("Introdueix el teu nom:");
+        textNom.setAlignmentX(Component.CENTER_ALIGNMENT);
+        textNom.setFont(new Font("Quicksand", Font.BOLD, 18));
+        textNom.setForeground(textFosc);
+
+        panelCentre.add(textNom);
+        panelCentre.add(Box.createVerticalStrut(10));
+
+        JTextField campNom = new JTextField();
+        campNom.setMaximumSize(new Dimension(260, 40));
+        campNom.setFont(new Font("Quicksand", Font.PLAIN, 18));
+        campNom.setHorizontalAlignment(JTextField.CENTER);
+
+        panelCentre.add(campNom);
+        panelCentre.add(Box.createVerticalStrut(40));
+
+
         JButton botIniciar = new JButton("INICIAR");
         estilBotoPrincipal(botIniciar);
         botIniciar.addActionListener(e -> {
+            String nom = campNom.getText().trim();
+            if (nom.isEmpty()) {
+                JOptionPane.showMessageDialog(null,"Has d'introduir un nom");
+                return;
+            }
+            nomUsuari = nom;
             CardLayout cl = (CardLayout) (pantalles.getLayout());
             cl.show(pantalles, Main.DIFICULTAT);
         });
